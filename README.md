@@ -24,14 +24,18 @@ In the data folder there is a file named aFC.txt. This file provids allelic fold
 
 ### VCF file
 
-A phased vcf file is required to extract the genotypes of individuals.
+A tabix indexed gzip compressed VCF file containing genotypes.
 
 Genotype, encoded as allele values separated by either of / or |. " /" means genotype unphased and "|" means genotype phased. The allele values are 0 for the reference allele (what is in the REF  field), 1 for the allele listed in ALT. For diploid calls examples could be 0/1, 1|0.
 
 **The REF and ALT information should match the REF and ALT information in aFC.txt**
 
-Here is an example to predict the expression of a specific gene for an individual using these inputs
+### Arguments
 
+- --aFC-path : File containing allelic fold change for each eQTL. for each variant in columnn "variant_id" should contain 'gene_id', gene associated to that variant and 'log2_aFC', The effect size of the variant. 
+- --sep The seperator of the aFC file.
+
+### Output file
 
 # Resources
 
