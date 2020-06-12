@@ -30,24 +30,38 @@ Genotype, encoded as allele values separated by either of / or |. " /" means gen
 
 **The REF and ALT information should match the REF and ALT information in aFC.txt**
 
-### Arguments
+## Arguments
 
-- --aFC-path : File containing allelic fold change for each eQTL. for each variant in columnn "variant_id" should contain 'gene_id', gene associated to that variant and 'log2_aFC', The effect size of the variant. 
-- --sep The seperator of the aFC file.
+### Required
 
-### Output file
+- --aFC_path : File containing allelic fold change for each eQTL. for each variant in columnn "variant_id" should contain 'gene_id', gene associated to that variant and 'log2_aFC', The effect size of the variant. 
+- --sep : The seperator of the aFC file.
+- --vcf_path : Tabix indexed and gzipped VCF file containing sample genotypes.
+- --variant_max : Maximum number of variants per gene to be processed.
+- --geno : Which field in VCF to use as the genotype. By default 'GT' = genotype
+- --output : Output file.
+
+## Output file
+
+- gene_expression.txt : Contains predicted gene expression for each gene_id and individual
+- ASE.txt : Contains predicted ASE for each gene_id and individual
 
 # Resources
 
 ## R/gene_expression_lookupTable.R
 
-This R script gets a sorted aFC file (**sorted based on gene_id**), counts the number of variants for each gene and produces lookup tables representing expression values for all genotypes. The lookup tables are generated based on the number of the eQTLs for each gene, thus "lookupTable_variantNo_2" includes genes with two eQTLS. To run the script use the following command:
+This R script, counts the number of variants for each gene and produces lookup tables representing log transformed expression values for all genotypes. The lookup tables are generated based on the number of the eQTLs for each gene, thus "haplotype_logExpression_var_2" includes genes with two eQTLS. To run the script use the following command:
 
 ```Shell
-    Rscript gene_expression_lookupTable.R data\aFC_Whole_Blood.txt
+    Rscript gene_expression_lookupTable.R  aFC_path output_path sep variant_max
 ```    
-## python/ASE_prediction.ipynb
-This script uses the lookup tables to predict expression for each haplotype, reading the individual genotypes from vcf file.
+## python/gene_expr_pred.py
+This script uses the lookup tables to predict expression for each haplotype, reading the individual genotypes from vcf file. To run the script use the following command:
+
+```Shell
+    python gene_expr_pred.py --aFC_path aFC_path --sep seperator --vcf_path vcf_path --variant_max max_no_of_eQTLs_per_gene --geno genotype_field_VCF  --output/--o output_file
+``` 
+
 
 
 
