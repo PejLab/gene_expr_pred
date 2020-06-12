@@ -48,6 +48,12 @@ Genotype, encoded as allele values separated by either of / or |. " /" means gen
 
 # Resources
 
+## gene_expr_pred.py
+This script uses the lookup tables to predict expression for each haplotype, reading the individual genotypes from vcf file. To run the script use the following command:
+
+```Shell
+    python gene_expr_pred.py --aFC_path aFC_path --sep seperator --vcf_path vcf_path --variant_max max_no_of_eQTLs_per_gene --geno genotype_field_VCF  --output/--o output_file
+``` 
 ## gene_expression_lookupTable.R
 
 This R script, counts the number of variants for each gene and produces lookup tables representing log transformed expression values for all genotypes. The lookup tables are generated based on the number of the eQTLs for each gene, thus "haplotype_logExpression_var_2" includes genes with two eQTLS. To run the script use the following command:
@@ -55,15 +61,3 @@ This R script, counts the number of variants for each gene and produces lookup t
 ```Shell
     Rscript gene_expression_lookupTable.R  aFC_path output_path sep variant_max
 ```    
-## gene_expr_pred.py
-This script uses the lookup tables to predict expression for each haplotype, reading the individual genotypes from vcf file. To run the script use the following command:
-
-```Shell
-    python gene_expr_pred.py --aFC_path aFC_path --sep seperator --vcf_path vcf_path --variant_max max_no_of_eQTLs_per_gene --geno genotype_field_VCF  --output/--o output_file
-``` 
-
-
-
-
-
-
