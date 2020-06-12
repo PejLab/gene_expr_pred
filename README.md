@@ -28,7 +28,7 @@ A phased vcf file is required to extract the genotypes of individuals.
 
 Genotype, encoded as allele values separated by either of / or |. " /" means genotype unphased and "|" means genotype phased. The allele values are 0 for the reference allele (what is in the REF  field), 1 for the allele listed in ALT. For diploid calls examples could be 0/1, 1|0.
 
-**The REF and ALT information should match the REF and ALT information in aFC_Whole_Blood.txt**
+**The REF and ALT information should match the REF and ALT information in aFC.txt**
 
 Here is an example to predict the expression of a specific gene for an individual using these inputs
 
