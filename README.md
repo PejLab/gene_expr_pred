@@ -34,17 +34,17 @@ Genotype, encoded as allele values separated by either of / or |. " /" means gen
 
 ### Required
 
-- --aFC_path : File containing allelic fold change for each eQTL. for each variant in columnn "variant_id" should contain 'gene_id', gene associated to that variant and 'log2_aFC', The effect size of the variant. 
-- --sep : The seperator of the aFC file.
-- --vcf_path : Tabix indexed and gzipped VCF file containing sample genotypes.
-- --variant_max : Maximum number of variants per gene to be processed.
-- --geno : Which field in VCF to use as the genotype. By default 'GT' = genotype
-- --output : Output file.
+- **--aFC_path** : File containing allelic fold change for each eQTL. for each variant in columnn "variant_id" should contain 'gene_id', gene associated to that variant and 'log2_aFC', The effect size of the variant. 
+- **--sep** : The seperator of the aFC file.
+- **--vcf_path** : Tabix indexed and gzipped VCF file containing sample genotypes.
+- **--variant_max** : Maximum number of variants per gene to be processed.
+- **--geno** : Which field in VCF to use as the genotype. By default 'GT' = genotype
+- **--output** : Output file.
 
 ## Output file
 
-- gene_expression.txt : Contains predicted gene expression for each gene_id and individual
-- ASE.txt : Contains predicted ASE for each gene_id and individual
+- **gene_expression.txt** : Contains predicted gene expression for each gene_id and individual
+- **ASE.txt** : Contains predicted ASE for each gene_id and individual
 
 # Resources
 
