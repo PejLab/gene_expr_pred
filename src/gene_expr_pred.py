@@ -104,21 +104,25 @@ def genotype_finder(path_vcf, path_lookup_table,max_var,output_path,vcf_geno):
 
                         gt_index = cols[8].split(":").index(vcf_geno)
                         snp_found = 1
+                        break
                 
                 
 
                 
                 if (snp_found==0):     # chrX won't be found
-                    continue
+                    gt_index = 1000
+                    print("WARNING: eSNP %s not found in VCF"%(row[var]))
                 
                 hap_ind = 0;
 
     
                 for ind in individuals:
             
-            
-                    sample_col = cols[vcf_map[ind]]
-                    genotype_both = sample_col.split(":")[gt_index]
+                    if (gt_index ==1000):
+                        genotype_both = './.'
+                    else:  
+                        sample_col = cols[vcf_map[ind]]
+                        genotype_both = sample_col.split(":")[gt_index]
 
 
                     genotype_both_haps= genotypeOfHaplotypes(genotype_both);
