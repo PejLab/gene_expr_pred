@@ -12,16 +12,6 @@ In the data folder there is a file named aFC.txt. This file provids allelic fold
 
 - log2_aFC : The effect size of the variant (required)
 
-- rank : rank of that variant in eQTL calling process (optional)
-
-- CHROM : the chromosome of the variant (optional)
-
-- POS : position of that variant (optional)
-
-- REF : The Reference allele (optional)
-
-- ALT : The Alternative allele (optional)
-
 ### VCF file
 
 A tabix indexed gzip compressed VCF file containing genotypes.
@@ -52,7 +42,7 @@ Genotype, encoded as allele values separated by either of / or |. " /" means gen
 This script uses the lookup tables to predict expression for each haplotype, reading the individual genotypes from vcf file. To run the script use the following command:
 
 ```Shell
-    python gene_expr_pred.py --aFC_path aFC_path --sep seperator --vcf_path vcf_path --variant_max max_no_of_eQTLs_per_gene --geno genotype_field_VCF  --output/--o output_file
+    python gene_expr_pred.py --aFC_path aFC_path --sep seperator --vcf_path vcf_path --variant_max max_no_of_eQTLs_per_gene --geno genotype_field_VCF  --output/--o output_dir
 ``` 
 ## gene_expression_lookupTable.R
 
