@@ -1,0 +1,8 @@
+numpy
+pandas
+itertools
+os
+gzip
+time
+tqdm.auto
+pysam
