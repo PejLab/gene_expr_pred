@@ -29,7 +29,7 @@ Genotype, encoded as allele values separated by either of / or |. " /" means gen
 - **--vcf_path** : Tabix indexed and gzipped VCF file containing sample genotypes.
 - **--variant_max** : Maximum number of variants per gene to be processed.
 - **--geno** : Which field in VCF to use as the genotype. By default 'GT' = genotype
-- **--output** : Output file.
+- **--output** : Output directory.
 
 ## Output file
 
