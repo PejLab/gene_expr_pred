@@ -326,6 +326,9 @@ if __name__ == "__main__":
     warnings.filterwarnings("ignore")
     
     # make the output directory
+    bashCommand = 'mkdir -p ' + output_path
+    os.system(bashCommand)
+    
     bashCommand = 'mkdir ' + output_path + "/temp"
     os.system(bashCommand)
     
