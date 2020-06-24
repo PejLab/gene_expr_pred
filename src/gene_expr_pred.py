@@ -81,10 +81,20 @@ def genotype_finder(path_vcf, path_lookup_table,max_var,output_path,vcf_geno):
         for index, row in tqdm(lookup_table.iterrows(),total=lookup_table.shape[0],position=0, leave=True, desc="   "+str(var_count)+"-eQTL genes"):
             
 #            tqdm.write(str(var_count)+"-eQTL genes", end = "\r")
-            hap1_individual_genotype_lst.clear();
-            hap2_individual_genotype_lst.clear();
             columns = pd.Series();
             columns = columns.append(pd.Series({'gene_id':row['gene_id']}))
+            
+            if ('chrX' in row['variant_id_1']):# chrX won't be found
+                columns = columns.append(pd.Series({'variant_id_1':'chrX'}))
+                temp = columns.to_frame().T; 
+                prediction_matrix_haplotype1= prediction_matrix_haplotype1.append(temp,ignore_index=True);
+                prediction_matrix_haplotype2= prediction_matrix_haplotype2.append(temp,ignore_index=True);
+                genotype_info_hap1[index] = '2'
+                genotype_info_hap2[index] = '2'      
+                continue;
+            hap1_individual_genotype_lst.clear();
+            hap2_individual_genotype_lst.clear();
+            
             count = count + 1
 #            print (count, end='\r')
             for i in range(1,var_count+1):
