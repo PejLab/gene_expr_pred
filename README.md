@@ -34,7 +34,7 @@ Genotype, encoded as allele values separated by either of / or |. " /" means gen
 ## Output file
 
 - **gene_expression.txt** : Contains predicted gene expression for each gene_id and individual
-- **ASE.txt** : Contains predicted ASE for each gene_id and individual
+- **ASE.txt** : Contains relative estimated ASE for each gene_id and individual
 
 # Resources
 
