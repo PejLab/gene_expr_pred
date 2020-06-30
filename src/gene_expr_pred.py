@@ -180,9 +180,19 @@ def expr_pred(lookup_Table_path, max_var, path_genotype, output_path):
     
 
 
-    def ASE_predicted_value(hap1_count,hap2_count):
+    def Allelic_imbalance_predicted(hap1_count,hap2_count):
 
         return hap1_count - hap2_count;
+    
+    def ASE_predicted_value(hap1_count,hap2_count):
+        h1 = 2**hap1_count
+        htotal = 2**hap1_count + 2**hap2_count
+        p = h1 / htotal
+        h1_percent = round(p,2)
+        h2_percent  = round(1 - h1_percent,2)
+        s = str(h1_percent)+"|"+str(h2_percent)
+        
+        return s
 
     def total_predicted_value(hap1_count,hap2_count):
         hap1_count = 2**hap1_count;        
@@ -257,7 +267,7 @@ def expr_pred(lookup_Table_path, max_var, path_genotype, output_path):
                     total_count_lst.insert(ind_index,round(total_prediction,4))
                     
                     ASE_prediction = ASE_predicted_value(lookup_Table.loc[lookup_Table_index,x1],lookup_Table.loc[lookup_Table_index,x2])
-                    ASE_count_lst.insert(ind_index,round(ASE_prediction,4))
+                    ASE_count_lst.insert(ind_index,ASE_prediction)
                     
                 else:
                     total_count_lst.insert(ind_index,np.nan)
