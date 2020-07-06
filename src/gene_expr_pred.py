@@ -19,17 +19,18 @@ from tqdm.auto import tqdm
 
 
 def genotype_finder(path_vcf, path_lookup_table,max_var,output_path,vcf_geno):
+#looking for genotypes from vcf file
+
     def genotypeOfHaplotypes(genotype_info):
-    
-        FirstPart = genotype_info.split(":")[0]
-    
-        if not ("|" in FirstPart):
+        
+        # set 22 for nonphased genotypes
+        if not ("|" in genotype_info):
             return "22"
     
-        FirstPartSplit = FirstPart.split("|")
+        genotype_info_Split = genotype_info.split("|")
     
-        genotype_hap1 = 0 if FirstPartSplit[0] == "0" else 1
-        genotype_hap2 = 0 if FirstPartSplit[1] == "0" else 1
+        genotype_hap1 = 0 if genotype_info_Split[0] == "0" else 1
+        genotype_hap2 = 0 if genotype_info_Split[1] == "0" else 1
         return (str(genotype_hap1) + str(genotype_hap2))
     
     def sample_column_map(path, start_col=9, line_key="#CHR"):
@@ -175,9 +176,9 @@ def genotype_finder(path_vcf, path_lookup_table,max_var,output_path,vcf_geno):
         output_genotype_hap2.to_csv(os.path.expanduser(output_path+'/genotype_hap2_var_count_'+str(var_count)+".csv"));    
 
 
-# predicting total and ASE expression 
+
 def expr_pred(lookup_Table_path, max_var, path_genotype, output_path):
-    
+# predicting ASE and total expression     
 
 
     def Allelic_imbalance_predicted(hap1_count,hap2_count):
@@ -245,7 +246,6 @@ def expr_pred(lookup_Table_path, max_var, path_genotype, output_path):
 
 
 
-            # this could be changed to 'at' function
             genes.at[index,'gene_id'] = row['gene_id']
 
 
@@ -315,7 +315,7 @@ if __name__ == "__main__":
     parser.add_argument("--aFC_path", required=True, help="aFC path")
     parser.add_argument("--vcf_path", required=True, help="vcf path")
     parser.add_argument("--sep", required=True, help="aFC seperator")
-    parser.add_argument("--variant_max", required=True, help="max no. of variants to process")
+    parser.add_argument("--variant_max",type = int, required=True, help="max no. of variants to process")
     parser.add_argument("--geno", required=False, default="GT", help="Which field in VCF to use as the genotype. By default 'GT'") 
    
     parser.add_argument("--output_path", "--o", required=True, help="Output file")
@@ -344,6 +344,7 @@ if __name__ == "__main__":
     sep = args.sep
     
     warnings.filterwarnings("ignore")
+    script_path = os.path.dirname(os.path.abspath("gene_expr_pred.py"))
     
     # make the output directory
     bashCommand = 'mkdir -p ' + output_path
@@ -352,9 +353,7 @@ if __name__ == "__main__":
     bashCommand = 'mkdir ' + output_path + "/temp"
     os.system(bashCommand)
     
-    # make the output directory
-#    bashCommand = 'mkdir ' + output_path + "/temp/"+tissue_name
-#    os.system(bashCommand)
+    
     
 #    logging.basicConfig(filename=output_path + "/temp/"+tissue_name+ 'logs/info.log',level=logging.INFO)
 #    logging.basicConfig(filename=output_path + "/temp/"+tissue_name+'logs/info.debug.log',level=logging.DEBUG)
@@ -369,10 +368,11 @@ if __name__ == "__main__":
     path_lookup = output_path + "/temp/lookup_table/"
     
     print("Preparing lookup tables ...")
-    bashCommand='Rscript gene_expression_lookupTable.R '+ aFC_path + " "+path_lookup+" "+sep+" "+str(variant_max)
+    script_path = os.path.dirname(os.path.abspath("Rscript gene_expression_lookupTable.R"))
+    bashCommand=script_path+'/Rscript gene_expression_lookupTable.R '+ aFC_path + " "+path_lookup+" "+sep+" "+str(variant_max)
     os.system(bashCommand)
     
-    bashCommand= 'bash bash/group_sort_args.sh '+path_lookup+" "+str(variant_max)
+    bashCommand= 'bash '+script_path+'/bash/group_sort_args.sh '+path_lookup+" "+str(variant_max)
     os.system(bashCommand)
     
     
