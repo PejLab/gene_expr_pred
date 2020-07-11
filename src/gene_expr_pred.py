@@ -14,6 +14,7 @@ import pdb
 import time
 import argparse
 import warnings
+import sys
 from tqdm.auto import tqdm
 
 
@@ -311,7 +312,7 @@ if __name__ == "__main__":
     
     parser = argparse.ArgumentParser()
     # REQUIRED
-#    parser.add_argument("--tissue_name", required=True, default='tissue', help="Name of a tissue")
+
     parser.add_argument("--aFC_path", required=True, help="aFC path")
     parser.add_argument("--vcf_path", required=True, help="vcf path")
     parser.add_argument("--sep", required=True, help="aFC seperator")
@@ -326,7 +327,6 @@ if __name__ == "__main__":
     
 # sample input    
     
-#    tissue_name = 'Adipose_Subcutaneous'
 #    aFC_path = '~/genome_biology/data/aFC/aFC_v1.csv'
 #    vcf_path = '~/data/GTEx_Analysis_v8_phASER/phASER_GTEx_v8_merged.vcf.gz'
 #    output_path = '~/data/final_output/final_test/new/'
@@ -335,7 +335,6 @@ if __name__ == "__main__":
 #    geno = 'GT'
 
     
-#    tissue_name = args.tissue_name
     aFC_path = args.aFC_path
     vcf_path = args.vcf_path
     output_path = args.output_path
@@ -344,7 +343,15 @@ if __name__ == "__main__":
     sep = args.sep
     
     warnings.filterwarnings("ignore")
-    script_path = os.path.dirname(os.path.abspath("gene_expr_pred.py"))
+    script_path = sys.path[0]
+    print(script_path)
+    
+    print("Run settings ...")
+    print("     aFC File: %s"%(aFC_path))
+    print("     Genotype VCF: %s"%(vcf_path))
+    
+    
+    
     
     # make the output directory
     bashCommand = 'mkdir -p ' + output_path
@@ -368,8 +375,7 @@ if __name__ == "__main__":
     path_lookup = output_path + "/temp/lookup_table/"
     
     print("Preparing lookup tables ...")
-    script_path = os.path.dirname(os.path.abspath("Rscript gene_expression_lookupTable.R"))
-    bashCommand=script_path+'/Rscript gene_expression_lookupTable.R '+ aFC_path + " "+path_lookup+" "+sep+" "+str(variant_max)
+    bashCommand='Rscript '+script_path+'/gene_expression_lookupTable.R '+ aFC_path + " "+path_lookup+" "+sep+" "+str(variant_max)
     os.system(bashCommand)
     
     bashCommand= 'bash '+script_path+'/bash/group_sort_args.sh '+path_lookup+" "+str(variant_max)
@@ -380,7 +386,7 @@ if __name__ == "__main__":
     
     
     # read genotypes
-    print("reading genotypes ....")
+    print("Reading genotypes ...")
     bashCommand = 'mkdir ' + output_path + "/temp/genotypes/"
     os.system(bashCommand)
     genotype_finder(vcf_path,path_lookup,variant_max,output_path+"/temp/genotypes/", geno)
@@ -389,7 +395,7 @@ if __name__ == "__main__":
     
     
     # predicting total and ASE expressions
-    print('expression prediction ...')
+    print('Expression prediction ...')
     
     
     genotype_path = output_path + "/temp/genotypes/"
