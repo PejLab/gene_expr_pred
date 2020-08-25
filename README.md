@@ -31,6 +31,9 @@ Genotype, encoded as allele values separated by either of / or |. " /" means gen
 - **--geno** : Which field in VCF to use as the genotype. By default 'GT' = genotype
 - **--output** : Output directory.
 
+### Optional
+- **--chr** : Limit to a specific chromosome, For example chr22.
+
 ## Output file
 
 - **gene_expression.txt** : Contains predicted gene expression for each gene_id and individual
