@@ -32,7 +32,7 @@ Genotype, encoded as allele values separated by either of / or |. " /" means gen
 - **--output** : Output directory.
 
 ### Optional
-- **--chr** : Limit to a specific chromosome, For example chr22.
+- **--chr** : Limit to a specific chromosome.
 
 ## Output file
 
@@ -45,7 +45,7 @@ Genotype, encoded as allele values separated by either of / or |. " /" means gen
 This script uses the lookup tables to predict expression for each haplotype, reading the individual genotypes from vcf file. To run the script use the following command:
 
 ```Shell
-    python gene_expr_pred.py --aFC_path aFC_path --sep seperator --vcf_path vcf_path --variant_max max_no_of_eQTLs_per_gene --geno genotype_field_VCF  --output/--o output_dir
+    python gene_expr_pred.py --aFC_path data/aFC_sample.csv --sep , --vcf_path data/vcf_sample.vcf.gz --variant_max 16 --geno GT --chr chr22 --output/--o output_dir
 ``` 
 ## gene_expression_lookupTable.R
 
