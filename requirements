@@ -1,8 +1,15 @@
-numpy
-pandas
-itertools
-os
-gzip
-time
-tqdm.auto
-pysam
+Python:
+    numpy
+    pandas
+    itertools
+    os
+    gzip
+    time
+    tqdm.auto
+    pysam
+    argparse
+    warnings
+    sys
+R:
+    stringr
+    data.table
