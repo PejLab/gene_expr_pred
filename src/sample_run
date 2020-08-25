@@ -1,3 +1,3 @@
-python gene_expr_pred.py --aFC_path data/aFC_sample.csv --sep , --vcf_path data/vcf_sample.vcf.gz --variant_max 16 --geno GT --o output_dir
+python gene_expr_pred.py --aFC_path data/aFC_sample.csv --sep , --vcf_path data/vcf_sample.vcf.gz --variant_max 16 --geno GT --chr chr22 --o output_dir
 
 
