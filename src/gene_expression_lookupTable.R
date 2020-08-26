@@ -1,15 +1,26 @@
 #lookup table for n variants
 
+library(stringr)
+library(data.table)
+
 args <- commandArgs(trailingOnly = TRUE)
 
 # The AFC file should be sorted on gene_id
 AFC_data=read.table(file=args[1], header=TRUE, sep=args[3])
 AFC <- AFC_data[order(AFC_data$gene_id),]
 
-#AFC <- AFC_data[order('gene_id'),]
+if (!is.na(args[5])){
+    chr_id = paste0(args[5],'_')
+    AFC<-AFC[AFC$variant_id %like% chr_id, ]
+    if (dim(AFC)[1] == 0){
+        stop("No gene for the specified chromosome")
+    }
+    }
+
+
 
 # maximum number of variants
-maximum_variants <- as.integer(args[4]) + 1
+maximum_variants <- as.integer(args[4])
 
 
 # h1: first haplotype
@@ -116,3 +127,4 @@ for (var_count in 1:maximum_variants){
   
   
 }
+
