@@ -86,13 +86,15 @@ def genotype_finder(path_vcf, path_lookup_table,max_var,output_path,vcf_geno):
             columns = pd.Series();
             columns = columns.append(pd.Series({'gene_id':row['gene_id']}))
             
-            if ('chrX' in row['variant_id_1']):# chrX won't be found
-                columns = columns.append(pd.Series({'variant_id_1':'chrX'}))
-                temp = columns.to_frame().T; 
+            if ('chrX' in row['variant_id_1']):# chrX won't be found in vcf file
+                for chrx_count in range(1,var_count+1):
+                    var= 'variant_id_' + str(chrx_count)
+                    columns = columns.append(pd.Series({var:row[var]}))
+                    temp = columns.to_frame().T; 
                 prediction_matrix_haplotype1= prediction_matrix_haplotype1.append(temp,ignore_index=True);
                 prediction_matrix_haplotype2= prediction_matrix_haplotype2.append(temp,ignore_index=True);
-                genotype_info_hap1[index] = '2'
-                genotype_info_hap2[index] = '2'      
+                genotype_info_hap1[index] = ['2' for i in range(len(individuals_lst))]
+                genotype_info_hap2[index] = ['2' for i in range(len(individuals_lst))]      
                 continue;
             hap1_individual_genotype_lst.clear();
             hap2_individual_genotype_lst.clear();
@@ -238,8 +240,8 @@ def expr_pred(lookup_Table_path, max_var, path_genotype, output_path):
             count = count +1
             
 
-            if ('chrX' in row['variant_id_1']):
-                continue;
+#            if ('chrX' in row['variant_id_1']):
+#                continue;
 #            print (var_count, "   ", count, end='\r')
             
             placeholder =  list(np.where(lookup_Table['gene_id'] == row['gene_id']))[0] + 1;  # index starts from 1 in lookup table 
@@ -310,9 +312,9 @@ def expr_pred(lookup_Table_path, max_var, path_genotype, output_path):
 
 if __name__ == "__main__":
     
+    
     parser = argparse.ArgumentParser()
     # REQUIRED
-
     parser.add_argument("--aFC_path", required=True, help="aFC path")
     parser.add_argument("--vcf_path", required=True, help="vcf path")
     parser.add_argument("--sep", required=True, help="aFC seperator")
@@ -320,6 +322,9 @@ if __name__ == "__main__":
     parser.add_argument("--geno", required=False, default="GT", help="Which field in VCF to use as the genotype. By default 'GT'") 
    
     parser.add_argument("--output_path", "--o", required=True, help="Output file")
+    
+    # OPTIONAL
+    parser.add_argument("--chr", type=str, help="Limit to a specific chromosome.")
     
     
     
@@ -342,6 +347,7 @@ if __name__ == "__main__":
     geno = args.geno
     sep = args.sep
     
+    
     warnings.filterwarnings("ignore")
     script_path = sys.path[0]
     print(script_path)
@@ -349,6 +355,10 @@ if __name__ == "__main__":
     print("Run settings ...")
     print("     aFC File: %s"%(aFC_path))
     print("     Genotype VCF: %s"%(vcf_path))
+    if args.chr != None:
+        
+        print("     Chromosome: %s"%(args.chr))
+
     
     
     
@@ -375,7 +385,10 @@ if __name__ == "__main__":
     path_lookup = output_path + "/temp/lookup_table/"
     
     print("Preparing lookup tables ...")
-    bashCommand='Rscript '+script_path+'/gene_expression_lookupTable.R '+ aFC_path + " "+path_lookup+" "+sep+" "+str(variant_max)
+    if (args.chr == None):
+        bashCommand='Rscript '+script_path+'/gene_expression_lookupTable.R '+ aFC_path + " "+path_lookup+" "+sep+" "+str(variant_max)
+    else:
+        bashCommand='Rscript '+script_path+'/gene_expression_lookupTable.R '+ aFC_path + " "+path_lookup+" "+sep+" "+str(variant_max)+" "+args.chr
     os.system(bashCommand)
     
     bashCommand= 'bash '+script_path+'/bash/group_sort_args.sh '+path_lookup+" "+str(variant_max)
@@ -406,3 +419,4 @@ if __name__ == "__main__":
     
     expr_pred(path_lookup, variant_max, genotype_path, output_path+"/expressions/")
     
+
