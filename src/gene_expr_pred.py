@@ -321,7 +321,7 @@ if __name__ == "__main__":
     parser.add_argument("--variant_max",type = int, required=True, help="max no. of variants to process")
     parser.add_argument("--geno", required=False, default="GT", help="Which field in VCF to use as the genotype. By default 'GT'") 
    
-    parser.add_argument("--output_path", "--o", required=True, help="Output file")
+    parser.add_argument("--output_path", "--o", required=True, help="Output dir")
     
     # OPTIONAL
     parser.add_argument("--chr", type=str, help="Limit to a specific chromosome.")
