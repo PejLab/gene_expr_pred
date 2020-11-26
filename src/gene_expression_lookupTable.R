@@ -9,6 +9,7 @@ args <- commandArgs(trailingOnly = TRUE)
 AFC_data=read.table(file=args[1], header=TRUE, sep=args[3])
 AFC <- AFC_data[order(AFC_data$gene_id),]
 
+# if the chr argument is not null
 if (!is.na(args[5])){
     chr_id = paste0(args[5],'_')
     AFC<-AFC[AFC$variant_id %like% chr_id, ]
@@ -70,12 +71,12 @@ for (var_count in 1:maximum_variants){
       
       if (var_count==count){
         
-        gene_id<-gsub("\\..*","",AFC[index,'gene_id'])
+        gene_id<-gsub("\\..*","",AFC[index,'gene_id'])   #remove version No.
         lookup_table[lookup_table_index,'gene_id']<-paste0(gene_id)
         AFC_vector<-c()
         var_index<-1
         for (temp_index in (index-count+1):index){
-          AFC_value<-AFC[temp_index,'log2_aFC']
+          AFC_value<-AFC[temp_index,'log2_aFC']      #get AFC value
           
           
           # save zero for nan values
@@ -83,7 +84,7 @@ for (var_count in 1:maximum_variants){
             AFC_value<-0
           
           
-          # Cut off afc values
+          # Cut off afc values to remove outliers
           if (AFC_value < -6.64){
             AFC_value <- -log2(100)
           }
@@ -103,7 +104,7 @@ for (var_count in 1:maximum_variants){
         }
         for (j in 0:(2^count-1)){
           
-          ref_alt_vector<-c(number2binary(j,count))
+          ref_alt_vector<-c(number2binary(j,count))    #get all possible genotypes
           ref_vector<-c(replicate(count,0))
           output<-gene_expression_estimation(ref_alt_vector,ref_vector,AFC_vector)
           lookup_table[lookup_table_index,paste0("",toString(ref_alt_vector))]<-paste0(output[1])
@@ -122,9 +123,10 @@ for (var_count in 1:maximum_variants){
   }
   # create output  
 #  print(args[2])
-  write.csv(lookup_table,file=paste0(args[2],"/haplotype_logExpression_var_",var_count,".csv"))
+#  write.csv(lookup_table,file=paste0(args[2],"/haplotype_logExpression_var_",var_count,".csv"))
   write.table(lookup_table,file=paste0(args[2],"/haplotype_logExpression_var_",var_count,".txt"))
   
   
 }
+
 
