@@ -10,7 +10,7 @@ In the data folder there is a file named aFC.txt. This file provids allelic fold
 
 - gene_id : gene associated to that variant (required)
 
-- log2_aFC : The log_2 effect size of the variant (required)
+- log2_aFC : The effect size of the variant in log<sub>2</sub> (required)
 
 ### VCF file
 
