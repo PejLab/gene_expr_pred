@@ -3,15 +3,22 @@
 library(stringr)
 library(data.table)
 
+#Initialize
 args <- commandArgs(trailingOnly = TRUE)
+filename = args[1]
+output = args[2]
+seperator = args[3]
+max_var = args[4]
+chrom = args[5]
+
 
 # The AFC file should be sorted on gene_id
-AFC_data=read.table(file=args[1], header=TRUE, sep=args[3])
+AFC_data=read.table(file=filename, header=TRUE, sep=seperator)
 AFC <- AFC_data[order(AFC_data$gene_id),]
 
 # if the chr argument is not null
-if (!is.na(args[5])){
-    chr_id = paste0(args[5],'_')
+if (!is.na(chrom)){
+    chr_id = paste0(chrom,'_')
     AFC<-AFC[AFC$variant_id %like% chr_id, ]
     if (dim(AFC)[1] == 0){
         stop("No gene for the specified chromosome")
@@ -21,7 +28,7 @@ if (!is.na(args[5])){
 
 
 # maximum number of variants
-maximum_variants <- as.integer(args[4])
+maximum_variants <- as.integer(max_var)
 
 
 # h1: first haplotype
@@ -30,9 +37,9 @@ maximum_variants <- as.integer(args[4])
 gene_expression_estimation<-function(h1,h2,s){
   log_expression_h1<-t(h1)%*%s
   log_expression_h2<-t(h2)%*%s
-  total_expression<-exp(log_expression_h1)+exp(log_expression_h2)
-  expression_ratio_h1<-exp(log_expression_h1)/total_expression
-  expression_ratio_h2<-exp(log_expression_h2)/total_expression
+  total_expression<-2^(log_expression_h1)+2^(log_expression_h2)
+  expression_ratio_h1<-2^(log_expression_h1)/total_expression
+  expression_ratio_h2<-2^(log_expression_h2)/total_expression
   result<-c(log_expression_h1,log_expression_h2,total_expression,expression_ratio_h1,expression_ratio_h2)
   return(result)
   
@@ -124,9 +131,7 @@ for (var_count in 1:maximum_variants){
   # create output  
 #  print(args[2])
 #  write.csv(lookup_table,file=paste0(args[2],"/haplotype_logExpression_var_",var_count,".csv"))
-  write.table(lookup_table,file=paste0(args[2],"/haplotype_logExpression_var_",var_count,".txt"))
+  write.table(lookup_table,file=paste0(output,"/haplotype_logExpression_var_",var_count,".txt"))
   
   
 }
-
-
