@@ -131,7 +131,7 @@ for (var_count in 1:maximum_variants){
   # create output  
 #  print(args[2])
 #  write.csv(lookup_table,file=paste0(args[2],"/haplotype_logExpression_var_",var_count,".csv"))
-  write.table(lookup_table,file=paste0(output,"/haplotype_logExpression_var_",var_count,".txt"))
+  write.table(lookup_table,file=paste0(args[2],"/haplotype_logExpression_var_",var_count,".txt"))
   
   
 }
