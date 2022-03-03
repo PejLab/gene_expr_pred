@@ -1,4 +1,4 @@
-Python:
+Python (version 3.7.3):
     numpy
     pandas
     itertools
@@ -10,6 +10,6 @@ Python:
     argparse
     warnings
     sys
-R:
+R (version 3.5.2):
     stringr
     data.table
