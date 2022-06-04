@@ -114,7 +114,8 @@ def genotype_finder(path_vcf, path_lookup_table,max_var,output_path,vcf_geno):
                 snp_found = 0
                 for record in records:
                     cols = record.rstrip().split("\t")
-                    if cols[2] == row[var]:
+                    vcf_var = cols[0]+"_"+cols[1]+"_"+cols[3]+"_"+cols[4]+"_b38"# in case the ID column of vcf does not contain chr position. Be careful of _b38 this is based on GRch38
+                    if ((cols[2] == row[var]) | (vcf_var == row[var])):
 
                         gt_index = cols[8].split(":").index(vcf_geno)
                         snp_found = 1
