@@ -374,7 +374,7 @@ if __name__ == "__main__":
         
     if args.phased == 'False':
         
-        print("     WARNING: processing unphased VCF")
+        print("     WARNING: processing unphased VCF, results will be approximate")
 
     
     
