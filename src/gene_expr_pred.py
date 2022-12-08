@@ -19,17 +19,27 @@ from tqdm.auto import tqdm
 
 
 
-def genotype_finder(path_vcf, path_lookup_table,max_var,output_path,vcf_geno):
-#looking for genotypes from vcf file
+def genotype_finder(path_vcf, path_lookup_table,max_var,output_path,vcf_geno,phased):
+#looking for genotypes from vcf file, the VCF should be considered either phased or unphased
 
-    def genotypeOfHaplotypes(genotype_info):
+    def genotypeOfHaplotypes(genotype_info,phased):
         
-        # set 22 for nonphased genotypes
-        if not ("|" in genotype_info):
-            return "22"
+        if (phased):
+            # set 22 for unphased or undefinable genotypes
+            if not ("|" in genotype_info):
+                return "22"
     
-        genotype_info_Split = genotype_info.split("|")
-    
+            genotype_info_Split = genotype_info.split("|")
+        else:
+            # set 22 for undefinable genotypes
+
+            if ("|" in genotype_info):
+                genotype_info_Split = genotype_info.split("|")
+            elif ("/" in genotype_info):
+                genotype_info_Split = genotype_info.split("/")
+            else:
+                return "22"
+        # 0 is for ref and 1 for alt allele
         genotype_hap1 = 0 if genotype_info_Split[0] == "0" else 1
         genotype_hap2 = 0 if genotype_info_Split[1] == "0" else 1
         return (str(genotype_hap1) + str(genotype_hap2))
@@ -140,7 +150,7 @@ def genotype_finder(path_vcf, path_lookup_table,max_var,output_path,vcf_geno):
                         genotype_both = sample_col.split(":")[gt_index]
 
 
-                    genotype_both_haps= genotypeOfHaplotypes(genotype_both);
+                    genotype_both_haps= genotypeOfHaplotypes(genotype_both,phased);
             
                     if (i>1):
                        
@@ -320,7 +330,8 @@ if __name__ == "__main__":
     parser.add_argument("--vcf_path", required=True, help="vcf path")
     parser.add_argument("--sep", required=True, help="aFC seperator")
     parser.add_argument("--variant_max",type = int, required=True, help="max no. of variants to process")
-    parser.add_argument("--geno", required=False, default="GT", help="Which field in VCF to use as the genotype. By default 'GT'") 
+    parser.add_argument("--geno", required=False, default="GT", help="Which field in VCF to use as the genotype. By default 'GT'")
+    parser.add_argument("--phased",  default="True", choices=['True','False'], required=False, help="Is the VCF file phased (True) or unphased (False)")
    
     parser.add_argument("--output_path", "--o", required=True, help="Output dir")
     
@@ -347,6 +358,7 @@ if __name__ == "__main__":
     variant_max = int(args.variant_max)
     geno = args.geno
     sep = args.sep
+    phased = eval(args.phased)
     
     
     warnings.filterwarnings("ignore")
@@ -359,6 +371,10 @@ if __name__ == "__main__":
     if args.chr != None:
         
         print("     Chromosome: %s"%(args.chr))
+        
+    if args.phased == 'False':
+        
+        print("     WARNING: processing unphased VCF")
 
     
     
@@ -403,7 +419,7 @@ if __name__ == "__main__":
     print("Reading genotypes ...")
     bashCommand = 'mkdir ' + output_path + "/temp/genotypes/"
     os.system(bashCommand)
-    genotype_finder(vcf_path,path_lookup,variant_max,output_path+"/temp/genotypes/", geno)
+    genotype_finder(vcf_path,path_lookup,variant_max,output_path+"/temp/genotypes/", geno, phased)
     
     
     
