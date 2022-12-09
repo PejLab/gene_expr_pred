@@ -30,7 +30,7 @@ Genotype, encoded as allele values separated by either of / or |. " /" means gen
 - **--variant_max** : Maximum number of variants per gene to be processed.
 - **--geno** : Which field in VCF to use as the genotype. By default 'GT' = genotype
 - **--output** : Output directory.
-- **--phased** : Is the VCF file phased (True) or unphased (False). By default it is True.
+- **--phased** : If True only phased genotypes in VCF will be considered. If False both phased and unphased genotypes will be considered, in case of unphased genotypes the results are approximate. The default is True. 
 
 ### Optional
 - **--chr** : Limit to a specific chromosome.
