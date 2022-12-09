@@ -1,4 +1,4 @@
-# Allele-specific and gene expression prediction
+# Allele-specific and genetically-regulated gene expression prediction
 This script is designed to predict allele-specific expressian and total gene expression using allelic fold change (aFC). See the [manuscript](https://genome.cshlp.org/content/27/11/1872.short) for method description.
 
 More information on estimating aFCs, could be found [here](https://github.com/wickdChromosome/aFC-n). 
