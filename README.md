@@ -18,6 +18,8 @@ A tabix indexed gzip compressed VCF file containing genotypes.
 
 Genotype, encoded as allele values separated by either of / or |. " /" means genotype unphased and "|" means genotype phased. The allele values are 0 for the reference allele (what is in the REF  field), 1 for the allele listed in ALT. For diploid calls examples could be 0/1, 1|0.
 
+The assumption is that the build version is aligned to the GRCh38 assembly (variant id followed by _b38).
+
 **The REF and ALT information should match the REF and ALT information in aFC file**
 
 ## Arguments
