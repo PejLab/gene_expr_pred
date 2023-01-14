@@ -37,7 +37,7 @@ Genotype, encoded as allele values separated by either of / or |. " /" means gen
 
 ## Output file
 
-- **gene_expression.txt** : Contains predicted gene expression for each gene_id and individual
+- **gene_expression.txt** : Contains predicted gene expression for each gene_id and individual. The expression is relative to expression of haplotype carrying reference allele(s) (e_R) as described in [manuscript] (https://www.biorxiv.org/content/10.1101/2022.01.28.478116v1).
 - **ASE.txt** : Contains relative estimated ASE for each gene_id and individual
 
 # Resources
