@@ -4,7 +4,7 @@ We simulated log2 effect sizes for each eQTL from standard Normal distribution. 
 ## Inputs
 
 ### input file
-In the data folder there is a file named aFC.txt. This file provids allelic fold change for each eQTL. In this file for each variant in columnn "variant_id" we have the following information:
+In the data folder there is a file named input_sample.txt. In this file for each variant in columnn "variant_id" we have the following information:
 
 - gene_id : gene associated to that variant (required)
 
