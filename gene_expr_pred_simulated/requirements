@@ -1,0 +1,15 @@
+Python (version 3.7.3):
+    numpy
+    pandas
+    itertools
+    os
+    gzip
+    time
+    tqdm.auto
+    pysam
+    argparse
+    warnings
+    sys
+R (version 3.5.2):
+    stringr
+    data.table
