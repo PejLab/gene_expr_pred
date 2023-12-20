@@ -31,7 +31,7 @@ The assumption is that the build version is aligned to the GRCh38 assembly (The 
 - **--output** : Output directory.
 - **--phased** : If True only phased genotypes in VCF will be considered. If False both phased and unphased genotypes will be considered, in case of unphased genotypes the results are approximate. The default is True.
 - **--mean** : The mean for normal distribution for simulating aFcs. By default 'mean' = 0
-- - **--mean** : The standard deviation for normal distribution for simulating aFcs. By default 'sd' = 1
+- **--sd** : The standard deviation for normal distribution for simulating aFcs. By default 'sd' = 1
 
 ### Optional
 - **--chr** : Limit to a specific chromosome.
