@@ -1,5 +1,5 @@
 # Allele-specific and genetically-regulated gene expression prediction
-We simulated log2 effect sizes for each eQTL from standard Normal distribution. Expected gene expression is estimated as the sum of the two haplotypic counts using a simulated e0, and the simulated sequencing read count for each gene is generated using a Poisson distribution. To generate simulated ASE data, we calculated the expected reference expression ratio for each individual, and simulated discrete read counts for each haplotype using Binomial distribution.
+We simulated log2 effect sizes for each eQTL from standard Normal distribution. Expected gene expression is estimated as the sum of the two haplotypic counts using a simulated e0 (expression for haplotype carrying reference allele), and the simulated sequencing read count for each gene is generated using a Poisson distribution. To generate simulated ASE data, we calculated the expected reference expression ratio for each individual, and simulated discrete read counts for each haplotype using Binomial distribution.
 
 ## Inputs
 
